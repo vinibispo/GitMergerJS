@@ -12,10 +12,16 @@ async function Browser(user, pass, repo){
             console.log('Login error')
         }
     }
-    
-    while(true){
+    while (true) {
         try {
             await driver.get(`https://github.com/${user}/${repo}`)
+            break
+        } catch (error) {
+            console.log('Site error')
+        }   
+    }
+    while(true){
+        try {
             await driver.findElement(webdriver.By.className('btn btn-sm btn-primary float-right')).click()
             break
         } catch (error) {
@@ -53,8 +59,7 @@ async function Browser(user, pass, repo){
         } catch (error) {
             console.log('Last error')
         }
-        console.log('Sucessful')
     }
-    
+    console.log('Sucessful')
 }
 module.exports = Browser
