@@ -1,13 +1,21 @@
 async function Browser(user, pass, repo){
     const webdriver = require('selenium-webdriver')
     const driver = new webdriver.Builder().forBrowser('chrome').build()
-    await driver.get(`https://github.com/login`)
-    await driver.findElement(webdriver.By.name('login')).sendKeys(user)
-    await driver.findElement(webdriver.By.name('password')).sendKeys(pass)
-    await driver.findElement(webdriver.By.name('commit')).click()
-    await driver.get(`https://github.com/${user}/${repo}`)
     while(true){
         try {
+            await driver.get(`https://github.com/login`)
+            await driver.findElement(webdriver.By.name('login')).sendKeys(user)
+            await driver.findElement(webdriver.By.name('password')).sendKeys(pass)
+            await driver.findElement(webdriver.By.name('commit')).click()
+            break
+        } catch (error) {
+            console.log('Login error')
+        }
+    }
+    
+    while(true){
+        try {
+            await driver.get(`https://github.com/${user}/${repo}`)
             await driver.findElement(webdriver.By.className('btn btn-sm btn-primary float-right')).click()
             break
         } catch (error) {
@@ -33,9 +41,19 @@ async function Browser(user, pass, repo){
     while (true) {
         try {
             await driver.findElement(webdriver.By.className('btn btn-primary BtnGroup-item js-merge-commit-button')).click()
+            break
         } catch (error) {
-            await driver.findElement(webdriver.By.className('btn float-right')).click()
+            console.log('Fourth error')
         }
+    }
+    while (true) {
+        try {
+            await driver.findElement(webdriver.By.className('btn float-right')).click()
+            break
+        } catch (error) {
+            console.log('Last error')
+        }
+        console.log('Sucessful')
     }
     
 }
