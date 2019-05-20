@@ -9,11 +9,25 @@ async function Browser(user, pass, repo){
     while(true){
         try {
             await driver.findElement(webdriver.By.className('btn btn-sm btn-primary float-right')).click()
-            await driver.findElement(webdriver.By.className('btn btn-primary BtnGroup-item js-pull-request-button')).click()
-            await driver.findElements(webdriver.By.className('btn btn-primary BtnGroup-item js-details-target'))[0].click()
             break
         } catch (error) {
-            console.log('Some error')
+            console.log('First error')
+        }
+    }
+    while(true){
+        try {
+            await driver.findElement(webdriver.By.className('btn btn-primary BtnGroup-item js-pull-request-button')).click()
+            break
+        } catch (error) {
+            console.log('Second error')
+        }
+    }
+    while(true){
+        try {
+            await driver.findElement(webdriver.By.className('btn btn-primary BtnGroup-item js-details-target')).click()
+            break
+        } catch (error) {
+            console.log('Last error')
         }
     }
     
