@@ -27,7 +27,14 @@ async function Browser(user, pass, repo){
             await driver.findElement(webdriver.By.className('btn btn-primary BtnGroup-item js-details-target')).click()
             break
         } catch (error) {
-            console.log('Last error')
+            console.log('Third error')
+        }
+    }
+    while (true) {
+        try {
+            await driver.findElement(webdriver.By.className('btn btn-primary BtnGroup-item js-merge-commit-button')).click()
+        } catch (error) {
+            await driver.findElement(webdriver.By.className('btn float-right')).click()
         }
     }
     
