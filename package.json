@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/vinibispo/git-merger#readme",
   "dependencies": {
-    "readline-sync": "^1.4.9"
+    "readline-sync": "^1.4.9",
+    "selenium-webdriver": "^4.0.0-alpha.1"
   }
 }
