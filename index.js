@@ -1,4 +1,6 @@
 async function start(){
-    const input = require('./input')
+    const {user, pass, repo} = require('./input')
     const browser = require('./browser')
+    await browser(user, pass, repo)
 }
+start()
