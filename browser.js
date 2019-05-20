@@ -10,7 +10,7 @@ async function Browser(user, pass, repo){
         try {
             await driver.findElement(webdriver.By.className('btn btn-sm btn-primary float-right')).click()
             await driver.findElement(webdriver.By.className('btn btn-primary BtnGroup-item js-pull-request-button')).click()
-            await driver.findElement(webdriver.By.className('btn btn-primary BtnGroup-item js-details-target'))
+            await driver.findElements(webdriver.By.className('btn btn-primary BtnGroup-item js-details-target'))[0].click()
             break
         } catch (error) {
             console.log('Some error')
