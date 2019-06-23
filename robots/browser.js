@@ -2,7 +2,7 @@ async function robot(user, pass, repo){
     await Browser(user, pass, repo)
 }
 async function Browser(user, pass, repo){
-    const puppeteer = require('puppeteer-firefox')
+    const puppeteer = require('puppeteer')
     const browser = await puppeteer.launch({headless: false})
     const page = await browser.newPage()
     await login(user, pass, page)
