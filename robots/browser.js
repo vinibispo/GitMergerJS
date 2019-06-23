@@ -1,65 +1,23 @@
-async function Browser(user, pass, repo){
-    const webdriver = require('selenium-webdriver')
-    const driver = new webdriver.Builder().forBrowser('chrome').build()
-    while(true){
-        try {
-            await driver.get(`https://github.com/login`)
-            await driver.findElement(webdriver.By.name('login')).sendKeys(user)
-            await driver.findElement(webdriver.By.name('password')).sendKeys(pass)
-            await driver.findElement(webdriver.By.name('commit')).click()
-            break
-        } catch (error) {
-            console.log('Login error')
-        }
-    }
-    while (true) {
-        try {
-            await driver.get(`https://github.com/${user}/${repo}`)
-            break
-        } catch (error) {
-            console.log('Site error')
-        }   
-    }
-    while(true){
-        try {
-            await driver.findElement(webdriver.By.className('btn btn-sm btn-primary float-right')).click()
-            break
-        } catch (error) {
-            console.log('First error')
-        }
-    }
-    while(true){
-        try {
-            await driver.findElement(webdriver.By.className('btn btn-primary BtnGroup-item js-pull-request-button')).click()
-            break
-        } catch (error) {
-            console.log('Second error')
-        }
-    }
-    while(true){
-        try {
-            await driver.findElement(webdriver.By.className('btn btn-primary BtnGroup-item js-details-target')).click()
-            break
-        } catch (error) {
-            console.log('Third error')
-        }
-    }
-    while (true) {
-        try {
-            await driver.findElement(webdriver.By.className('btn btn-primary BtnGroup-item js-merge-commit-button')).click()
-            break
-        } catch (error) {
-            console.log('Fourth error')
-        }
-    }
-    while (true) {
-        try {
-            await driver.findElement(webdriver.By.className('btn float-right')).click()
-            break
-        } catch (error) {
-            console.log('Last error')
-        }
-    }
-    console.log('Sucessful')
+async function robot(user, pass, repo){
+    await Browser(user, pass, repo)
 }
-module.exports = Browser
+async function Browser(user, pass, repo){
+    const puppeteer = require('puppeteer')
+    const browser = await puppeteer.launch({headless: false})
+    const page = await browser.newPage()
+    await login(user, pass, page)
+    await findRepo(user, repo, page)
+}
+async function login(user, pass, page){
+    await page.goto('https://github.com/login', {waitUntil: 'networkidle2'})
+    const username =await page.waitForSelector('input#login_field')
+    await username.type(user)
+    const password = await page.waitForSelector('input#password')
+    await password.type(pass)
+    const buttonLogin = await page.waitForSelector('input.btn')
+    await buttonLogin.click()
+}
+async function findRepo(user, repo, page){
+    await page.goto(`https://github.com/${user}/${repo}`, {waitUntil: 'networkidle2'})
+}
+module.exports = robot
