@@ -6,8 +6,11 @@ async function Browser(user, pass, repo){
     const browser = await puppeteer.launch({headless: false})
     const page = await browser.newPage()
     await login(user, pass, page)
+    await page.waitFor(2000)
     await findRepo(user, repo, page)
+    await page.waitFor(2000)
     await compareRepo(page)
+    await page.waitFor(2000)
     await pullRequest(page)
     await mergeRepo(page)
 }
@@ -36,5 +39,6 @@ async function mergeRepo(page){
   await mergeBtn.click()
   const confirmMerge = await page.waitForSelector('.commit-form-actions > div:nth-child(1) > div:nth-child(1) > button:nth-child(1)')
   await confirmMerge.click()
+  const delBch = page.waitForSelector('#partial-pull-merging > form > div > div> button')
 }
 module.exports = robot
