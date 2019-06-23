@@ -2,7 +2,7 @@ async function robot(user, pass, repo){
     await Browser(user, pass, repo)
 }
 async function Browser(user, pass, repo){
-    const puppeteer = require('puppeteer')
+    const puppeteer = require('puppeteer-firefox')
     const browser = await puppeteer.launch({headless: false})
     const page = await browser.newPage()
     await login(user, pass, page)
@@ -40,5 +40,6 @@ async function mergeRepo(page){
   const confirmMerge = await page.waitForSelector('.commit-form-actions > div:nth-child(1) > div:nth-child(1) > button:nth-child(1)')
   await confirmMerge.click()
   const delBch = page.waitForSelector('#partial-pull-merging > form > div > div> button')
+  await delBch.click()
 }
 module.exports = robot
