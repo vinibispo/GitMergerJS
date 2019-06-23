@@ -7,6 +7,9 @@ async function Browser(user, pass, repo){
     const page = await browser.newPage()
     await login(user, pass, page)
     await findRepo(user, repo, page)
+    await compareRepo(page)
+    await pullRequest(page)
+    await mergeRepo(page)
 }
 async function login(user, pass, page){
     await page.goto('https://github.com/login', {waitUntil: 'networkidle2'})
@@ -19,5 +22,19 @@ async function login(user, pass, page){
 }
 async function findRepo(user, repo, page){
     await page.goto(`https://github.com/${user}/${repo}`, {waitUntil: 'networkidle2'})
+}
+async function compareRepo(page){
+    const compareButton = await page.waitForSelector('a.btn')
+    await compareButton.click()
+}
+async function pullRequest(page){
+    const pullReqBtn = page.waitForSelector('button.BtnGroup-item')
+    await pullReqBtn.click()
+}
+async function mergeRepo(page){
+  const mergeBtn = await page.waitForSelector('.merge-message > div:nth-child(1) > div:nth-child(1) > button:nth-child(1)')
+  await mergeBtn.click()
+  const confirmMerge = await page.waitForSelector('.commit-form-actions > div:nth-child(1) > div:nth-child(1) > button:nth-child(1)')
+  await confirmMerge.click()
 }
 module.exports = robot
