@@ -1,14 +1,26 @@
-const {spawn, exec} = require('child_process')
-const gc = exec('git', ['checkout', 'master'])
+const {spawn} = require('child_process')
+const gc = spawn('git', ['checkout', 'master'])
 const gm = spawn('git', ['merge', process.argv[2]])
-gm.stdout.on('data', (data) => {
+gc.stdout.on('data', (data) => {
   console.log(`stdout: ${data}`)
+  gm.stdout.on('data', (data) => {
+  	console.log(`stdout: ${data}`)
+  
+	})
 })
 
-gm.stderr.on('data', (data) => {
+gc.stderr.on('data', (data) => {
   console.log(`stderr: ${data}`)
+  gm.stderr.on('data', (data) => {
+  console.log(`stderr: ${data}`)
+  
+})
 })
 
-gm.on('close', (code) => {
+gc.on('close', (code) => {
   console.log(`child process exited with code ${code}`)
+  gc.on('close', (code) => {
+  console.log(`child process exited with code: ${code}`)
+  
+})
 })
